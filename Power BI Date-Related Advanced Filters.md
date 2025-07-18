@@ -55,3 +55,27 @@ IF(
     'Sales'[Date] >= TODAY() - 30 && 'Sales'[Date] <= TODAY(),
     "Yes", "No"
 )
+
+# 🧠 Top N Item Filter in Power BI (Bangla + English)
+
+## 📌 Objective (উদ্দেশ্য)
+Use **Top N Filter** in Power BI to show only the highest-ranked items — such as top 5 selling products or top 10 customers — in visuals like bar charts, tables, or matrices.
+
+---
+
+## ✅ Step 1: Create a Measure
+
+**Example**: For Total Sales
+
+```dax
+Total Sales = SUM(Sales[Amount])
+
+
+TopN Filtered Sales = 
+VAR TopNValue = SELECTEDVALUE(TopNSelector[TopNSelector])
+RETURN
+IF(
+    RANKX(ALL(Sales[Product]), [Total Sales]) <= TopNValue,
+    [Total Sales]
+)
+
